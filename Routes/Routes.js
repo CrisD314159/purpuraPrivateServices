@@ -6,12 +6,12 @@ import multer from "multer";
 import ImageUploadController from "../Controller/ImageUploadController.js";
 
 
-export default function Routes ({model})
+export default function Routes ()
 {
   const router = Router()
-  const artistController = new ArtistController({model})
-  const albumController = new AlbumController({model})
-  const songController = new SongController({model})
+  const artistController = new ArtistController()
+  const albumController = new AlbumController()
+  const songController = new SongController()
   const image = new ImageUploadController()
   const uploads = multer({dest:"uploads/"})
 

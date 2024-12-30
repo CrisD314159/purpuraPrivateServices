@@ -2,7 +2,6 @@ import express from "express"
 import "dotenv/config"
 import cors from 'cors'
 import Routes from "./Routes/Routes.js"
-import Model from "./Model/Model.js"
 import helmet from "helmet"
 
 const app = express()
@@ -30,7 +29,7 @@ const corsOptions = {
 app.use(cors())
 app.use(helmet())
 
-app.use("/apiprivate", Routes({Model}))
+app.use("/apiprivate", Routes())
 
 
 app.listen(port, ()=>{

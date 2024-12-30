@@ -9,6 +9,6 @@ const Song = z.object({
 
 
 
-export function ValidateSongs(song) {
+export function VerifySong(song) {
   return Song.safeParse(song)
 }

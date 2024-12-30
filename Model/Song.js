@@ -1,14 +1,85 @@
+import Album from "./Album";
+import Artist from "./Artist";
 
 
 export default class Song
 {
-  static async createSong(){
+  static async createSong({name, albumId, lyrics, genres, imageUrl, audioUrl, duration, artists}){
+    try {
+      if(!Album.verifyAlbum(albumId)) throw new Error("Album does not exist")
+      
+      const id = crypto.randomUUID()
+      const song = db.begin(async db =>{
+        
+        for (const genre of genres) {
+          if(!Artist.verifyArtist(genre)) throw new Error("Genre does not exist")
+          await db`INSERT INTO GenreSong (GenresId, SongsId) VALUES 
+          (${genre}, ${id})`
+        }
+
+        for (const artist of artists) {
+          if(!Artist.verifyArtist(artist)) throw new Error("Artist does not exist")
+          await db`INSERT INTO ArtistSong (ArtistsId, SongsId) VALUES 
+          (${artist}, ${id})`
+        }
+        await db`INSERT INTO SONGS (ID, NAME, ALBUMID, DURATION, LYRICS, PICTUREURL, AUDIOURL) VALUES 
+        (${id}, ${name}, ${albumId}, ${duration}, ${lyrics}, ${imageUrl}, ${audioUrl})`
+        return true
+      })
+
+      if(song) return song
+      
+    } catch (error) {
+      throw error
+      
+    }
     
   }
-  static async updateSong(){
+  static async updateSong({name, albumId, lyrics, genres, imageUrl, audioUrl, duration, artists}){
+    try {
+      if(!Album.verifyAlbum(albumId)) throw new Error("Album does not exist")
+      const song = db.begin(async db =>{
+        for (const genre of genres) {
+          if(!Artist.verifyArtist(genre)) throw new Error("Genre does not exist")
+          await db`INSERT INTO GenreSong (GenresId, SongsId) VALUES 
+          (${genre}, ${id})`
+        }
+
+        for (const artist of artists) {
+          if(!Artist.verifyArtist(artist)) throw new Error("Artist does not exist")
+          await db`INSERT INTO ArtistSong (ArtistsId, SongsId) VALUES 
+          (${artist}, ${id})`
+        }
+        await db`UPDATE SONGS SET NAME = ${name}, ALBUMID = ${albumId}, DURATION = ${duration}, LYRICS = ${lyrics}, PICTUREURL = ${imageUrl}, AUDIOURL = ${audioUrl} WHERE ID = ${id}`
+        return true
+      })
+      if(song) return song
+    } catch (error) {
+      throw error
+      
+    }
 
   }
-  static async deleteSong(){
+
+  static async deleteGenreSong(id){
+  }
+
+  static async deleteArtistSong(id){
+  }
+
+  static async deleteSong(id){
+    try {
+      if(!this.verifySong(id)) throw new Error("Song does not exist")
+      const song = db.begin(async db =>{
+        await db`DELETE FROM GenreSong WHERE SongsId = ${id}`
+        await db`DELETE FROM ArtistSong WHERE SongsId = ${id}`
+        await db`DELETE FROM SONGS WHERE ID = ${id}`
+        return true
+      })
+      if(song) return song
+    } catch (error) {
+      throw error
+    }
 
   }
 
