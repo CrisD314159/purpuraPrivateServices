@@ -1,11 +1,11 @@
-import e from "express";
-import { verifyUpdateArtist } from "../validations/ArtistUpdatevalidation";
-import { verifyArtist } from "../validations/ArtistValidation";
-import Artist from "../Model/Artist";
+import { verifyArtist } from "../validations/ArtistValidation.js";
+import Artist from "../Model/Artist.js";
 
 
 export default class ArtistController
 {
+
+  defaultImage = "https://res.cloudinary.com/dw43hgf5p/image/upload/v1735614367/tbisvyworts3yaq8jxif.jpg"
 
   create = async (req, res)=>{
     try {
@@ -14,8 +14,8 @@ export default class ArtistController
     if(validation.error){
       return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
     }
-    const artist = await Artist.createArtist({name, description, imageUrl: imageUrl ?? ""})
-    return res.status(201).json({success: true, artist})
+    await Artist.createArtist({name, description, imageUrl: imageUrl ?? this.defaultImage})
+    return res.status(201).json({success: true, message: "Artist created successfully"})
     } catch (error) {
       return res.status(500).json({success: false, message: error.message})
     }
@@ -25,12 +25,12 @@ export default class ArtistController
   update = async (req, res)=>{
     try {
       const {id, name, description, imageUrl} = req.body
-    const validation = verifyUpdateArtist({id, name, description})
-    if(validation.error){
+    const validation = verifyArtist({name, description})
+    if(validation.error || !id){
       return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
     }
-    const artist = await Artist.updateArtist({id, name, description, imageUrl: imageUrl ?? ""})
-    return res.status(201).json({success: true, artist})
+    await Artist.updateArtist({id, name, description, imageUrl: imageUrl ?? this.defaultImage})
+    return res.status(201).json({success: true, message: "Artist updated successfully"})
     } catch (error) {
       return res.status(500).json({success: false, message: error.message})
     }
@@ -43,8 +43,8 @@ export default class ArtistController
         if(!id){
           return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
         }
-        const artist = await Artist.deleteArtist(id)
-        return res.status(200).json({success: true, artist})
+        await Artist.deleteArtist(id)
+        return res.status(200).json({success: true, message: "Artist deleted successfully"})
       } catch (error) {
         return res.status(500).json({success: false, message: error.message})
       }

@@ -1,5 +1,5 @@
-import Song from "../Model/Song";
-import { VerifySong } from "../validations/SongValidation";
+import Song from "../Model/Song.js";
+import { VerifySong } from "../validations/SongValidation.js";
 
 
 export default class SongController

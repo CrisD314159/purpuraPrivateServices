@@ -1,42 +1,40 @@
+import { db } from "../DB/DBConnection.js"
 
 
 export default class Genre{
-  static async verifyGenre(){
+  static async verifyGenre(id){
      try {
-          const genre = await db`SELECT NAME FROM GENRES WHERE ID = ${id}`
-          if(!genre[0])return false
-          return true
+          const genre = await db`SELECT "Name" FROM "Genres" WHERE "Id" = ${id}`
+          if(genre[0]) return true
+          return false
         } catch (error) {
-          throw
+          throw error
         }
 
   }
-
-  static async createGenre({name, description, color}){
+  static async createGenre({ name, description, color }) {
     try {
-      const id = crypto.randomUUID()
-      const genre = db.begin(async db =>{
-        await db`INSERT INTO GENRES (ID, NAME, DESCRIPTION, COLOR) VALUES 
-        (${id}, ${name}, ${description}, ${color})`
-        return true
-      })
+        const id = crypto.randomUUID()
 
-      if(genre) return genre
+        const result = await db.begin(async (db) => {
+            await db`INSERT INTO "Genres" ("Id", "Name", "Description", "Color") VALUES 
+                (${id}, ${name}, ${description}, ${color})`;
+            return true;
+        });
+        return result;
 
     } catch (error) {
-      throw error
-      
+        throw error; // Propaga el error para que el controlador lo maneje
     }
-    
-  }
+}
   static async updateGenre({id, name, description, color}){
     try {
-      if(!this.verifyGenre(id)) throw new Error("Genre does not exist")
-        const genre = db.begin(async db =>{
-          await db`UPDATE GENRES SET NAME = ${name}, DESCRIPTION = ${description}, COLOR = ${color} WHERE ID = ${id}`
+      if(!await this.verifyGenre(id)) throw new Error("Genre does not exist")
+      const genre = await db.begin(async db =>{
+          await db`UPDATE "Genres" SET "Name" = ${name}, "Description" = ${description}, "Color" = ${color} WHERE "Id" = ${id}`
           return true
-        })
-        if(genre) return genre
+      })
+      return genre
     } catch (error) {
       throw error
       
@@ -45,9 +43,9 @@ export default class Genre{
   }
   static async deleteGenre(id){
     try {
-      if(!this.verifyGenre(id)) throw new Error("Genre does not exist")
+      if(!await this.verifyGenre(id)) throw new Error("Genre does not exist")
       const genre = db.begin(async db =>{
-        await db`DELETE FROM GENRES WHERE ID = ${id}`
+        await db`DELETE FROM "Genres" WHERE "Id" = ${id}`
         return true
       })
       if(genre) return genre

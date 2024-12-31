@@ -1,4 +1,4 @@
-import { db } from "../DB/DBConnection";
+import { db } from "../DB/DBConnection.js";
 
 
 export default class Artist
@@ -6,11 +6,11 @@ export default class Artist
 
   static async verifyArtist(id){
     try {
-      const artist = await db`SELECT NAME FROM ARTISTS WHERE ID = ${id}`
-      if(!artist[0])return false
-      return true
+      const artist = await db`SELECT "Name" FROM "Artists" WHERE "Id" = ${id}`
+      if(artist[0])return true
+      return false
     } catch (error) {
-      throw
+      throw error
     }
   }
 
@@ -18,12 +18,12 @@ export default class Artist
     try {
       const id = crypto.randomUUID()
       const artist = db.begin(async db =>{
-        await db`INSERT INTO ARTISTS (ID, NAME, DESCRIPTION, PICTUREURL) VALUES 
+        await db`INSERT INTO "Artists" ("Id", "Name", "Description", "PictureUrl") VALUES 
         (${id}, ${name}, ${description}, ${imageUrl})`
         return true
       })
 
-      if(artist) return artist
+      return artist
 
     } catch (error) {
       throw error
@@ -33,12 +33,12 @@ export default class Artist
   }
   static async updateArtist({id, name, description, imageUrl}){
     try {
-      if(!this.verifyArtist(id)) throw new Error("Artist does not exist")
+      if(!await this.verifyArtist(id)) throw new Error("Artist does not exist")
         const artist = db.begin(async db =>{
-          await db`UPDATE ARTISTS SET NAME = ${name}, DESCRIPTION = ${description}, PICTUREURL = ${imageUrl} WHERE ID = ${id}`
+          await db`UPDATE "Artists" SET "Name" = ${name}, "Description" = ${description}, "PictureUrl" = ${imageUrl} WHERE "Id" = ${id}`
           return true
         })
-        if(artist) return artist
+        return artist
     } catch (error) {
       throw error
       
@@ -47,9 +47,9 @@ export default class Artist
   }
   static async deleteArtist(id){
     try {
-      if(!this.verifyArtist(id)) throw new Error("Artist does not exist")
+      if(!await this.verifyArtist(id)) throw new Error("Artist does not exist")
       const artist = db.begin(async db =>{
-        await db`DELETE FROM ARTISTS WHERE ID = ${id}`
+        await db`DELETE FROM "Artists" WHERE "Id" = ${id}`
         return true
       })
       if(artist) return artist

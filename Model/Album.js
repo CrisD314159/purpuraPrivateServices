@@ -1,6 +1,6 @@
-import { db } from "../DB/DBConnection";
-import Artist from "./Artist";
-import Genre from "./Genre";
+import { db } from "../DB/DBConnection.js";
+import Artist from "./Artist.js";
+import Genre from "./Genre.js";
 
 
 
@@ -12,7 +12,7 @@ export default class Album
       if(!album[0])return false
       return true
     } catch (error) {
-      throw
+      throw error
     }
   }
 

@@ -1,5 +1,5 @@
-import Album from "./Album";
-import Artist from "./Artist";
+import Album from "./Album.js";
+import Artist from "./Artist.js";
 
 
 export default class Song
@@ -61,10 +61,32 @@ export default class Song
 
   }
 
-  static async deleteGenreSong(id){
+  static async deleteGenreSong({genreId, songId}){
+    try {
+      if(!this.verifySong(songId)) throw new Error("Song does not exist")
+      if(!Artist.verifyArtist(genreId)) throw new Error("Genre does not exist")
+      const song = db.begin(async db =>{
+        await db`DELETE FROM GenreSong WHERE GenresId = ${genreId} AND SongsId = ${songId}`
+        return true
+      })
+      if(song) return song
+    } catch (error) {
+      throw error
+    }
   }
 
-  static async deleteArtistSong(id){
+  static async deleteArtistSong({artistId, songId}){
+    try {
+      if(!this.verifySong(songId)) throw new Error("Song does not exist")
+      if(!Artist.verifyArtist(artistId)) throw new Error("Artist does not exist")
+      const song = db.begin(async db =>{
+        await db`DELETE FROM ArtistSong WHERE ArtistsId = ${artistId} AND SongsId = ${songId}`
+        return true
+      })
+      if(song) return song
+    } catch (error) {
+      throw error
+    }
   }
 
   static async deleteSong(id){

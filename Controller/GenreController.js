@@ -1,22 +1,22 @@
-import Genre from "../Model/Genre";
-import { VerifyGenre } from "../validations/GenreVerification";
+import Genre from "../Model/Genre.js";
+import { VerifyGenre } from "../validations/GenreVerification.js";
 
 
 export default class GenreController
 {
- create = async (req, res)=>{
+  create = async (req, res)=>{
        try {
          const {name, description, color} = req.body
          const validation = VerifyGenre({name, description, color})
          if(validation.error){
            return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
          }
-         const album = await Genre.createGenre({name, description, color})
-         return res.status(201).json({success: true, album})
+         await Genre.createGenre({name, description, color})
+         return res.status(200).json({success: true, message: "Genre created successfully"})
        } catch (error) {
          return res.status(500).json({success: false, message: error.message})
        }
-     };
+  };
    
    
      update = async (req, res)=>{
@@ -26,8 +26,8 @@ export default class GenreController
         if(validation.error || !id){
           return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
         }
-        const album = await Genre.updateGenre({id, name, description, color})
-        return res.status(200).json({success: true, album})
+        await Genre.updateGenre({id, name, description, color})
+        return res.status(200).json({success: true, message: "Genre updated successfully"})
       } catch (error) {
         return res.status(500).json({success: false, message: error.message})
       }
@@ -40,8 +40,8 @@ export default class GenreController
            if(!id){
              return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
            }
-           const album = await Genre.deleteGenre(id)
-           return res.status(200).json({success: true, album})
+          await Genre.deleteGenre(id)
+           return res.status(200).json({success: true, message: "Genre deleted successfully"})
          } catch (error) {
            return res.status(500).json({success: false, message: error.message})
          }

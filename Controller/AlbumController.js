@@ -1,9 +1,11 @@
-import Album from "../Model/Album";
-import { VerifyAlbum } from "../validations/AlbumValidation";
+import Album from "../Model/Album.js";
+import { VerifyAlbum } from "../validations/AlbumValidation.js";
 
 
 
 export default class AlbumController{
+
+  defaultPicture = "https://console.cloudinary.com/pm/c-cc22b9bae206c03a5dc8d149c7bc5e/media-explorer?assetId=9a3fa2fc024ca257b75b077807302a86"
 
   create = async (req, res)=>{
       try {
@@ -12,8 +14,8 @@ export default class AlbumController{
         if(validation.error){
           return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
         }
-        const album = await Album.createAlbum({name, description, artistId, genreId, releaseDate, writerName, producerName, recordLabel, imageUrl: imageUrl ?? ""})
-        return res.status(201).json({success: true, album})
+        await Album.createAlbum({name, description, artistId, genreId, releaseDate, writerName: writerName??"", producerName: producerName??"", recordLabel: recordLabel??"", imageUrl: imageUrl ?? this.defaultPicture})
+        return res.status(201).json({success: true, message: "Album created successfully"})
       } catch (error) {
         return res.status(500).json({success: false, message: error.message})
       }
@@ -27,8 +29,8 @@ export default class AlbumController{
         if(validation.error || !id){
           return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
         }
-        const album = await Album.updateAlbum({id, name, description, artistId, genreId, releaseDate, writerName, producerName, recordLabel, imageUrl: imageUrl ?? ""})
-        return res.status(201).json({success: true, album})
+        await Album.updateAlbum({id, name, description, artistId, genreId, releaseDate, writerName: writerName??"", producerName: producerName??"", recordLabel: recordLabel??"", imageUrl: imageUrl ?? this.defaultPicture})
+        return res.status(201).json({success: true, message: "Album updated successfully"})
       } catch (error) {
         return res.status(500).json({success: false, message: error.message})
       }
@@ -41,8 +43,8 @@ export default class AlbumController{
           if(!id){
             return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
           }
-          const album = await Album.createAlbum(id)
-          return res.status(200).json({success: true, album})
+          await Album.createAlbum(id)
+          return res.status(200).json({success: true, message: "Album deleted successfully"})
         } catch (error) {
           return res.status(500).json({success: false, message: error.message})
         }

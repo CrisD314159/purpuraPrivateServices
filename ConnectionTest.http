@@ -1,0 +1,73 @@
+
+@purpuraPrivate_HostAddress = http://localhost:3030
+
+
+### Genre methods
+
+
+### create Genre
+POST {{purpuraPrivate_HostAddress}}/apiprivate/createGenre
+Content-Type: application/json
+
+{
+    "name": "Rock",
+    "description": "Rock music is a broad genre of popular music that originated as rock and roll",
+    "color":"#FFE4E1"
+}
+
+
+### update Genre
+PUT {{purpuraPrivate_HostAddress}}/apiprivate/updateGenre
+Content-Type: application/json
+
+{
+    "id": "696a75a0-4b40-4d57-8477-1fec1de0f9ae",
+    "name": "Rock",
+    "description": "Rock music is a broad genre of popular music that originated as rock and roll, great genre",
+    "color":"#FFEC33"
+}
+
+### delete Genre
+DELETE  {{purpuraPrivate_HostAddress}}/apiprivate/deleteGenre
+Content-Type: application/json
+
+{
+    "id": "696a75a0-4b40-4d57-8477-1fec1de0f9ae",
+    "name": "Rock",
+    "description": "Rock music is a broad genre of popular music that originated as rock and roll, great genre",
+    "color":"#FFEC33"
+}
+
+
+
+
+### Artist Methods
+
+### Create Artist
+POST {{purpuraPrivate_HostAddress}}/apiprivate/createArtist
+Content-Type: application/json
+
+{
+    "name": "The Beatles",
+    "description": "The Beatles were an English rock band formed in Liverpool in 1960"
+}
+
+
+### Update Artist
+PUT {{purpuraPrivate_HostAddress}}/apiprivate/updateArtist
+Content-Type: application/json
+
+{
+    "id": "66f2e1b2-f944-4463-b8ef-26583bdd2a8",
+    "name": "The Beatles",
+    "description": "The Beatles were one of the greatest English rock band formed in Liverpool in 1960, great band"
+}
+
+### Delete Artist
+DELETE {{purpuraPrivate_HostAddress}}/apiprivate/deleteArtist
+Content-Type: application/json
+
+{
+    "id": "00f4e6d1-42b8-4da0-b54d-a0a7f59ad6f2"
+}
+
