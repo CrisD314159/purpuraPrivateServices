@@ -10,9 +10,9 @@ POST {{purpuraPrivate_HostAddress}}/apiprivate/createGenre
 Content-Type: application/json
 
 {
-    "name": "Rock",
-    "description": "Rock music is a broad genre of popular music that originated as rock and roll",
-    "color":"#FFE4E1"
+    "name": "Reggaeton",
+    "description": "Reggaeton is a music genre that originated in Puerto Rico during the late 1990s",
+    "color":"#EBA329"
 }
 
 
@@ -48,8 +48,8 @@ POST {{purpuraPrivate_HostAddress}}/apiprivate/createArtist
 Content-Type: application/json
 
 {
-    "name": "The Beatles",
-    "description": "The Beatles were an English rock band formed in Liverpool in 1960"
+    "name": "Feid",
+    "description": "Feid is a singer-songwriter from Medellín, Colombia."
 }
 
 
@@ -71,3 +71,144 @@ Content-Type: application/json
     "id": "00f4e6d1-42b8-4da0-b54d-a0a7f59ad6f2"
 }
 
+
+### Album Methods
+
+### Create Album
+POST {{purpuraPrivate_HostAddress}}/apiprivate/createAlbum
+Content-Type: application/json
+
+{
+    "name": "Abbey Road (Deluxe)",
+    "description": "Abbey Road is the eleventh studio album by the English rock band the Beatles",
+    "releaseDate": "1969-09-26",
+    "genreId":"633a9991-5a77-463a-bb15-ff1c7d577410", 
+    "writerName":"John Lennon, Paul McCartney", 
+    "producerName":"John Lennon, Paul McCartney",
+    "recordLabel":"Apple Records",
+    "artistId": "66f2e1b2-f944-4463-b8ef-26583bdd2a8a"
+}
+
+### Update Album
+PUT {{purpuraPrivate_HostAddress}}/apiprivate/updateAlbum
+Content-Type: application/json
+
+{
+    "id":"dc199c28-c0ad-4b76-96ad-b5d702b4dbb4",
+    "name": "Abbey Road [deluxe]",
+    "description": "Abbey Road is the eleventh studio album by the English rock band the Beatles",
+    "releaseDate": "1969-09-26",
+    "genreId":"633a9991-5a77-463a-bb15-ff1c7d577410", 
+    "writerName":"John Lennon, Paul McCartney", 
+    "producerName":"John Lennon, Paul McCartney, Ringo Starr",
+    "recordLabel":"Apple Records",
+    "artistId": "66f2e1b2-f944-4463-b8ef-26583bdd2a8a"
+}
+
+
+### Delete Album
+DELETE {{purpuraPrivate_HostAddress}}/apiprivate/deleteAlbum
+Content-Type: application/json
+
+{
+    "id":"dc199c28-c0ad-4b76-96ad-b5d702b4dbb4"
+}
+
+
+### Song Methods
+
+### Create a single song
+POST {{purpuraPrivate_HostAddress}}/apiprivate/createSongSingle
+Content-Type: application/json
+
+{
+    "name": "Come Together",
+    "description": "Come Together is a song by the English rock band the Beatles",
+    "releaseDate": "1969-09-26",
+    "genreId":"633a9991-5a77-463a-bb15-ff1c7d577410", 
+    "writerName":"John Lennon, Paul McCartney", 
+    "producerName":"John Lennon, Paul McCartney",
+    "recordLabel":"Apple Records",
+    "artistId": "66f2e1b2-f944-4463-b8ef-26583bdd2a8a",
+    "albumId": "dc199c28-c0ad-4b76-96ad-b5d702b4dbb4"
+}
+
+### Create a single song
+POST {{purpuraPrivate_HostAddress}}/apiprivate/createSongSingle
+Content-Type: application/json
+
+{
+    "name": "Luna",
+    "description": "Luna is a song by the Colombian singer-songwriter Feid",
+    "lyrics":"Te busco y no sé dónde estás",
+    "releaseDate": "2023-09-26",
+    "genres":["dba2112f-d4b7-4ada-8001-76f613614587", "1a1e4dbd-51a7-4867-aafc-7d9a589c4f52"], 
+    "artists":["480f0c66-6ef5-44ef-85bb-b58184bc102a"],
+    "writerName":"Salomón Hoyos", 
+    "producerName":"Salomón Hoyos, ATL Jacob",
+    "duration": "197",
+    "recordLabel":"Universal Music Latino",
+    "audioUrl":"https://www.youtube.com/watch?v=x2oUajHp8pg"
+}
+
+### Add song to an album
+POST {{purpuraPrivate_HostAddress}}/apiprivate/addSongToAlbum
+Content-Type: application/json
+
+{
+    "name": "Here Comes The Sun",
+    "lyrics":"Here comes the sun, doo-doo-doo-doo",
+    "albumId": "e121cec8-a4c1-449a-b0ec-6707a2aad53f",
+    "duration": "185", 
+    "genres":["633a9991-5a77-463a-bb15-ff1c7d577410"], 
+    "artists":["66f2e1b2-f944-4463-b8ef-26583bdd2a8a"],
+    "audioUrl":"https://www.youtube.com/watch?v=KQetemT1sWc"
+}
+### Update a song
+PUT {{purpuraPrivate_HostAddress}}/apiprivate/updateSong
+Content-Type: application/json
+
+{
+    "id":"fb640cdf-0ac9-4713-8210-1da24948fbda",
+    "name": "Here Comes The Sun",
+    "lyrics":"Here comes the sun, doo-doo-doo-doo, Here comes the sun, and I say",
+    "albumId": "e121cec8-a4c1-449a-b0ec-6707a2aad53f",
+    "duration": "188", 
+    "genres":["dba2112f-d4b7-4ada-8001-76f613614587"], 
+    "artists":["480f0c66-6ef5-44ef-85bb-b58184bc102a"],
+    "audioUrl":"https://www.youtube.com/watch?v=KQetemT1sWc"
+}
+
+
+### delete a song
+DELETE {{purpuraPrivate_HostAddress}}/apiprivate/deleteSong
+Content-Type: application/json
+
+{
+    "id":"a8aa599e-864b-4e57-9c26-bc8dde6087d6"
+}
+### remove a genre from a song
+PUT {{purpuraPrivate_HostAddress}}/apiprivate/removeGenreFromSong
+Content-Type: application/json
+
+{
+    "id":"fb640cdf-0ac9-4713-8210-1da24948fbda",
+    "genreId":"dba2112f-d4b7-4ada-8001-76f613614587"
+}
+
+### remove a artist from a song
+PUT {{purpuraPrivate_HostAddress}}/apiprivate/removeArtistFromSong
+Content-Type: application/json
+
+{
+    "id":"fb640cdf-0ac9-4713-8210-1da24948fbda",
+    "artistId":"480f0c66-6ef5-44ef-85bb-b58184bc102a"
+}
+
+### delete a song from an album
+DELETE {{purpuraPrivate_HostAddress}}/apiprivate/removeSongFromAlbum
+Content-Type: application/json
+
+{
+    "id":"c2d98ab3-af50-49d0-8af6-c106866f8235"
+}

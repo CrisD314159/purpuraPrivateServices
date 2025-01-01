@@ -5,16 +5,18 @@ import { VerifyAlbum } from "../validations/AlbumValidation.js";
 
 export default class AlbumController{
 
-  defaultPicture = "https://console.cloudinary.com/pm/c-cc22b9bae206c03a5dc8d149c7bc5e/media-explorer?assetId=9a3fa2fc024ca257b75b077807302a86"
+  defaultPicture = "https://res.cloudinary.com/dw43hgf5p/image/upload/v1735662671/y9fte0emwkkrkgqwlahj.jpg"
 
   create = async (req, res)=>{
       try {
         const {name, description, artistId, genreId, releaseDate, writerName, producerName, recordLabel, imageUrl} = req.body
-        const validation = VerifyAlbum({name, description,artistId, genreId, releaseDate, writerName, producerName, recordLabel})
+        const date = new Date(releaseDate);
+        if (isNaN(date)) throw new Error("Cannot convert date");
+        const validation = VerifyAlbum({name, description,artistId, genreId, releaseDate:date , writerName, producerName, recordLabel})
         if(validation.error){
           return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
         }
-        await Album.createAlbum({name, description, artistId, genreId, releaseDate, writerName: writerName??"", producerName: producerName??"", recordLabel: recordLabel??"", imageUrl: imageUrl ?? this.defaultPicture})
+        await Album.createAlbum({name, description, artistId, genreId, releaseDate:date, writerName: writerName??"", producerName: producerName??"", recordLabel: recordLabel??"", imageUrl: imageUrl ?? this.defaultPicture})
         return res.status(201).json({success: true, message: "Album created successfully"})
       } catch (error) {
         return res.status(500).json({success: false, message: error.message})
@@ -25,16 +27,17 @@ export default class AlbumController{
     update = async (req, res)=>{
       try {
         const {id, name, description, artistId, genreId, releaseDate, writerName, producerName, recordLabel, imageUrl} = req.body
-        const validation = VerifyAlbum({name, description,artistId, genreId, releaseDate, writerName, producerName, recordLabel})
+        const date = new Date(releaseDate);
+        if (isNaN(date)) throw new Error("Cannot convert date");
+        const validation = VerifyAlbum({name, description,artistId, genreId, releaseDate: date, writerName, producerName, recordLabel})
         if(validation.error || !id){
           return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
         }
-        await Album.updateAlbum({id, name, description, artistId, genreId, releaseDate, writerName: writerName??"", producerName: producerName??"", recordLabel: recordLabel??"", imageUrl: imageUrl ?? this.defaultPicture})
+        await Album.updateAlbum({id, name, description, artistId, genreId, releaseDate: date, writerName: writerName??"", producerName: producerName??"", recordLabel: recordLabel??"", imageUrl: imageUrl ?? this.defaultPicture})
         return res.status(201).json({success: true, message: "Album updated successfully"})
       } catch (error) {
         return res.status(500).json({success: false, message: error.message})
       }
-  
     };
   
     delete = async (req,res)=>{
@@ -43,7 +46,7 @@ export default class AlbumController{
           if(!id){
             return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
           }
-          await Album.createAlbum(id)
+          await Album.deleteAlbum(id)
           return res.status(200).json({success: true, message: "Album deleted successfully"})
         } catch (error) {
           return res.status(500).json({success: false, message: error.message})

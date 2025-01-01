@@ -29,9 +29,13 @@ export default function Routes ()
   router.delete("/deleteAlbum", albumController.delete)
 
 
-  router.post("/createSong", songController.create)
+  router.post("/createSongSingle", songController.createSingle)
+  router.post("/addSongToAlbum", songController.addToAlbum)
   router.put("/updateSong", songController.update)
-  router.delete("deleteSong", songController.delete)
+  router.delete("/deleteSong", songController.deleteSingle)
+  router.delete("/removeSongFromAlbum", songController.removeFromAlbum)
+  router.put("/removeGenreFromSong", songController.removeGenreFromSong)
+  router.put("/removeArtistFromSong", songController.removeArtistFromSong)
 
 
   router.post("/createGenre", genreController.create)
