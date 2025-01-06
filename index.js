@@ -3,7 +3,7 @@ import "dotenv/config"
 import cors from 'cors'
 import Routes from "./Routes/Routes.js"
 import helmet from "helmet"
-
+import bcrypt from "bcrypt"
 const app = express()
 
 

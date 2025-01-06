@@ -45,11 +45,12 @@ Content-Type: application/json
 
 ### Create Artist
 POST {{purpuraPrivate_HostAddress}}/apiprivate/createArtist
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbkRhdGEiOnsidXNlcklkIjoiMTA5Mjg1MDUwMyIsImVtYWlsIjoidmFyZ2FzbG9haXphY3Jpc3RpYW5AZ21haWwuY29tIn0sImlhdCI6MTczNjE5OTY3NCwiZXhwIjoxNzM2MjAzMjc0fQ.0Kw8CkCEnx-drhJrA4eAh56ekNEltZjWzxNADTr_VII
 Content-Type: application/json
 
 {
-    "name": "Feid",
-    "description": "Feid is a singer-songwriter from Medellín, Colombia."
+    "name": "The Weeknd",
+    "description": "The Weeknd is a Canadian singer, songwriter, and record producer"
 }
 
 
@@ -211,4 +212,35 @@ Content-Type: application/json
 
 {
     "id":"c2d98ab3-af50-49d0-8af6-c106866f8235"
+}
+
+
+
+
+### Login Test
+POST {{purpuraPrivate_HostAddress}}/apiprivate/login/admin
+Content-Type: application/json
+
+{
+    "email": "vargasloaizacristian@gmail.com",
+    "password":"Out_of_touch125"
+}
+
+### logout Test
+POST {{purpuraPrivate_HostAddress}}/apiprivate/logout/admin
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZWZyZXNoVG9rZW5EYXRhIjp7InVzZXJJZCI6IjEwOTI4NTA1MDMiLCJlbWFpbCI6InZhcmdhc2xvYWl6YWNyaXN0aWFuQGdtYWlsLmNvbSIsInNlc3Npb25JZCI6ImQ4ZDQ3OTg0LWNiOGEtNGJmYi1iM2EyLWI1YTA4ZGRmYjIzYyJ9LCJpYXQiOjE3MzYxOTMwNTMsImV4cCI6MTczNjE5MzE3M30.K1lHiuOg2D5osxTYwkpb_634qFwAnC87vLAPrErtf-s"
+}
+
+
+
+
+### refresh token
+PUT {{purpuraPrivate_HostAddress}}/apiprivate/refresh/admin
+content-type: application/json
+
+{
+    "refreshToken": ""
 }
