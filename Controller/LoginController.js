@@ -44,4 +44,25 @@ export default class LoginController
       
     }
   }
+
+
+  checkAuth = async(req, res)=>{
+     try {
+        const {authorization} = req.headers
+        if (!authorization) throw new Error("Unauthorized")
+    
+        const token = authorization.split(' ')[1]
+        const {tokenData} = jwt.verify(token, process.env.JWT_SECRET)
+        if (!tokenData) throw new Error("Unauthorized")
+        
+        if(!CheckAdmin(tokenData.userId)) throw new Error("You're not authorized to access this resource")
+    
+        res.status(200).json({success: true, message:"Authorized"})
+     
+      } catch (error) {
+        if (error.name === "TokenExpiredError") return res.status(401).json({success: false, message: "Session expired, please login again"}) 
+        res.status(401).json({success: false, message: `${error.message}`})
+        
+      }
+  }
 }

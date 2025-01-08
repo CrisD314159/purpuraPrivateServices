@@ -51,6 +51,7 @@ export default function Routes ()
   router.post("/login/admin", loginController.login)
   router.post("/logout/admin", loginController.logout)
   router.put("/refresh/admin", loginController.refreshToken)
+  router.put("/login/checkToken", loginController.checkAuth)
 
 
   return router

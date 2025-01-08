@@ -42,7 +42,7 @@ export default class LoginServices{
         sessionId        
       }
       const token = jwt.sign({tokenData}, process.env.JWT_SECRET, {expiresIn: "1h"})
-      const refreshToken = jwt.sign({refreshTokenData}, process.env.JWT_REFRESH_SECRET, {expiresIn: "2m"})
+      const refreshToken = jwt.sign({refreshTokenData}, process.env.JWT_REFRESH_SECRET, {expiresIn: "7d"})
 
       return {token, refreshToken}
       

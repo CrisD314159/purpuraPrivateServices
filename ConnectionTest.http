@@ -222,8 +222,8 @@ POST {{purpuraPrivate_HostAddress}}/apiprivate/login/admin
 Content-Type: application/json
 
 {
-    "email": "vargasloaizacristian@gmail.com",
-    "password":"Out_of_touch125"
+    "email": "",
+    "password":""
 }
 
 ### logout Test
