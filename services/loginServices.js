@@ -75,8 +75,10 @@ export default class LoginServices{
       if(!refreshTokenData) throw new Error("Invalid refresh token")
       const session = await db`SELECT "Id" from "AdminSessions" WHERE "Id" = ${refreshTokenData.sessionId}` 
       if(!session[0]) throw new Error("Invalid refresh token")
-
-      const token = jwt.sign({refreshTokenData}, process.env.JWT_SECRET, {expiresIn: "1h"})
+      const tokenData = {
+        ...refreshTokenData
+      }
+      const token = jwt.sign({tokenData}, process.env.JWT_SECRET, {expiresIn: "1h"})
       return token
 
     } catch (error) {

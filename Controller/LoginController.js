@@ -1,5 +1,7 @@
+import { CheckAdmin } from "../middleware/AuthMiddleware.js"
 import LoginServices from "../services/loginServices.js"
 import { VerifyLogin } from "../validations/LoginValidation.js"
+import jwt from 'jsonwebtoken'
 
 
 export default class LoginController
@@ -48,14 +50,12 @@ export default class LoginController
 
   checkAuth = async(req, res)=>{
      try {
-        const {authorization} = req.headers
-        if (!authorization) throw new Error("Unauthorized")
+        const {token} = req.body
+        if (!token) throw new Error("Unauthorized")
     
-        const token = authorization.split(' ')[1]
         const {tokenData} = jwt.verify(token, process.env.JWT_SECRET)
-        if (!tokenData) throw new Error("Unauthorized")
-        
-        if(!CheckAdmin(tokenData.userId)) throw new Error("You're not authorized to access this resource")
+
+        if(!await CheckAdmin(tokenData.userId)) throw new Error("You're not authorized to access this resource")
     
         res.status(200).json({success: true, message:"Authorized"})
      

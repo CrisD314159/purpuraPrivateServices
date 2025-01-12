@@ -1,4 +1,4 @@
-
+import ImageService from "../services/ImageService.js"
 
 export default class ImageUploadController
 {
@@ -8,10 +8,10 @@ export default class ImageUploadController
     {
       const img = req.file.path
       const result = await ImageService.uploadImage(img)
-      res.status(200).json({message:"Image uploaded", url:result})
+      res.status(200).json({success:true, message:"Image uploaded", url:result})
     } catch (error)
     {
-      res.status(500).json({message:"Image upload failed", error:error.message})
+      res.status(500).json({success:false, message:"Image upload failed"})
     }
   }
 }

@@ -1,7 +1,7 @@
 
 import jwt from 'jsonwebtoken'
 import { db } from '../DB/DBConnection.js'
-export const CheckAuth = (req, res, next) =>{
+export const CheckAuth = async (req, res, next) =>{
   try {
     const {authorization} = req.headers
     if (!authorization) throw new Error("Unauthorized")
@@ -10,7 +10,7 @@ export const CheckAuth = (req, res, next) =>{
     const {tokenData} = jwt.verify(token, process.env.JWT_SECRET)
     if (!tokenData) throw new Error("Unauthorized")
     
-    if(!CheckAdmin(tokenData.userId)) throw new Error("You're not authorized to access this resource")
+    if(!await CheckAdmin(tokenData.userId)) throw new Error("You're not authorized to access this resource")
 
     req.session = tokenData.userId
     next()
@@ -28,6 +28,7 @@ export const CheckAdmin = async (userId) =>{
     if (!admin[0]) throw new Error("Unauthorized")
     return true
   } catch (error) {
+    throw error
     
   }
 }

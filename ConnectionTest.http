@@ -244,3 +244,10 @@ content-type: application/json
 {
     "refreshToken": ""
 }
+### check token
+PUT {{purpuraPrivate_HostAddress}}/apiprivate/login/checkToken
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbkRhdGEiOnsidXNlcklkIjoiMTA5Mjg1MDUwMyIsImVtYWlsIjoidmFyZ2FzbG9haXphY3Jpc3RpYW5AZ21haWwuY29tIiwic2Vzc2lvbklkIjoiZjBkMDdhZjQtMGEyNC00MmIzLTg0YTQtYzQzMTgzNDZjOGY4In0sImlhdCI6MTczNjM1MjE2OCwiZXhwIjoxNzM2MzU1NzY4fQ.PK6X4SUFsOOEn_cB2eduiN6Ke0lv0pRFdxiHku9M8og"
+}
