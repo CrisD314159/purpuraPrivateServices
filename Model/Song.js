@@ -42,7 +42,7 @@ export default class Song
         if(await Album.verifyAlbumByName(name)) throw new Error("Album already exists")
         //const album_id = await Album.createAlbumSingle({name, artistId: artists[0], genreId: genres[0], releaseDate, writerName: writerName??"", producerName: producerName??"", recordLabel: recordLabel??"", imageUrl: imageUrl ?? this.defaultPicture})
         await db`INSERT INTO "Albums" ("Id", "Name", "Description", "ArtistId", "GenreId", "ReleaseDate", "WriterName", "ProducerName", "RecordLabel", "PictureUrl", "AlbumType") VALUES 
-          (${albumId}, ${name}, ${""}, ${artists[0]}, ${genres[0]}, ${releaseDate}, ${writerName}, ${producerName}, ${recordLabel}, ${imageUrl}, ${2})`   
+          (${albumId}, ${name}, ${""}, ${artists[0]}, ${genres[0]}, ${releaseDate}, ${writerName}, ${producerName}, ${recordLabel}, ${imageUrl}, ${1})`   
 
         await db`INSERT INTO "Songs" ("Id", "Name", "AlbumId", "Duration", "Lyrics", "ImageUrl", "AudioUrl") VALUES 
         (${songId}, ${name}, ${albumId}, ${duration}, ${lyrics}, ${imageUrl}, ${audioUrl})`

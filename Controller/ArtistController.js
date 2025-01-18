@@ -7,6 +7,21 @@ export default class ArtistController
 
   defaultImage = "https://res.cloudinary.com/dw43hgf5p/image/upload/v1735614367/tbisvyworts3yaq8jxif.jpg"
 
+
+  getMinimal = async (req, res)=>{
+    try {
+      const {name} = req.query
+      if(!name){
+        const artists = await Artist.getMinimalArtists("")
+        return res.status(201).json({success: true, message: "Data fetched", data: artists})
+      }
+      const artists = await Artist.getMinimalArtists(name)
+    return res.status(201).json({success: true, message: "Data fetched", data: artists})
+    } catch (error) {
+      return res.status(500).json({success: false, message: error.message})
+    }
+  }
+
   create = async (req, res)=>{
     try {
       const {name, description, imageUrl} = req.body

@@ -5,6 +5,10 @@
 ### Genre methods
 
 
+### get Genre
+GET {{purpuraPrivate_HostAddress}}/apiprivate/getMinGenres
+
+
 ### create Genre
 POST {{purpuraPrivate_HostAddress}}/apiprivate/createGenre
 Content-Type: application/json
@@ -63,6 +67,9 @@ Content-Type: application/json
     "name": "The Beatles",
     "description": "The Beatles were one of the greatest English rock band formed in Liverpool in 1960, great band"
 }
+### Update Artist
+GET {{purpuraPrivate_HostAddress}}/apiprivate/getMinimalArtists/artist?name=bad
+
 
 ### Delete Artist
 DELETE {{purpuraPrivate_HostAddress}}/apiprivate/deleteArtist

@@ -4,6 +4,18 @@ import { VerifyGenre } from "../validations/GenreVerification.js";
 
 export default class GenreController
 {
+
+  getMin = async (req, res)=>{
+    try {
+      const genres = await Genre.getMinimal()
+      return res.status(200).json({success: true, message: "Genres fetched", data: genres})
+    } catch (error) {
+      return res.status(500).json({success: false, message: error.message})
+    }
+};
+
+
+
   create = async (req, res)=>{
        try {
          const {name, description, color} = req.body

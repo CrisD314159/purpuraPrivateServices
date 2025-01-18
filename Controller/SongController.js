@@ -12,8 +12,8 @@ createSingle = async (req, res)=>{
         const {name, lyrics, genres, imageUrl, audioUrl, duration, artists, producerName, writerName, recordLabel, releaseDate} = req.body
         const date = new Date(releaseDate);
         const durationDouble = parseFloat(duration)
-        const validation = VerifySongSingle({name, lyrics, releaseDate:date, duration:durationDouble, writerName, producerName, recordLabel})
-        if(validation.error || !genres  || !audioUrl || !artists){
+        const validation = VerifySongSingle({name, genres, artists, lyrics, audioUrl, releaseDate:date, duration:durationDouble, writerName, producerName, recordLabel})
+        if(validation.error){
           return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
         }
         await Song.createSongSingle({name, lyrics, genres, imageUrl: imageUrl ?? this.defaultImage, audioUrl, duration, artists, producerName, writerName, recordLabel, releaseDate: date})

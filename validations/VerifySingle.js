@@ -9,6 +9,9 @@ const Song = z.object({
   writerName: z.string().min(3).max(80).optional(),
   producerName: z.string().min(3).max(80).optional(),
   recordLabel: z.string().min(3).max(80).optional(),
+  audioUrl: z.string().url(),
+  genres: z.array(z.string()),
+  artists: z.array(z.string())
 })
 
 

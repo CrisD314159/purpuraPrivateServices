@@ -7,7 +7,6 @@ import Genre from "./Genre.js";
 export default class Album
 {
 
-
   static async verifyAlbum(id){
     try {
       const album = await db`SELECT "Name" FROM "Albums" WHERE "Id" = ${id}`
@@ -37,8 +36,8 @@ export default class Album
       if(!await Genre.verifyGenre(genreId)) throw new Error("Artist does not exist")
         const id = crypto.randomUUID()
         const album = db.begin(async db =>{
-          await db`INSERT INTO "Albums" ("Id", "Name", "Description", "ArtistId", "GenreId", "ReleaseDate", "WriterName", "ProducerName", "RecordLabel", "PictureUrl") VALUES 
-          (${id}, ${name}, ${description}, ${artistId}, ${genreId}, ${releaseDate}, ${writerName}, ${producerName}, ${recordLabel}, ${imageUrl})`
+          await db`INSERT INTO "Albums" ("Id", "Name", "Description", "ArtistId", "GenreId", "ReleaseDate", "WriterName", "ProducerName", "RecordLabel", "PictureUrl", "AlbumType") VALUES 
+          (${id}, ${name}, ${description}, ${artistId}, ${genreId}, ${releaseDate}, ${writerName}, ${producerName}, ${recordLabel}, ${imageUrl}, ${0})`
           return true
         })
         if(album) return album
@@ -47,8 +46,8 @@ export default class Album
       throw error
       
     }
-
   }
+
   static async createAlbumSingle({name, artistId, genreId, releaseDate, writerName, producerName, recordLabel, imageUrl}){
     try {
       if(await this.verifyAlbumByName(name)) throw new Error("Album already exists")

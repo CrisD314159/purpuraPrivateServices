@@ -2,6 +2,15 @@ import { db } from "../DB/DBConnection.js"
 
 
 export default class Genre{
+  static async getMinimal(){
+     try {
+          const genres = await db`SELECT "Id", "Name" FROM "Genres"`
+          return genres
+        } catch (error) {
+          throw error
+        }
+
+  }
   static async verifyGenre(id){
      try {
           const genre = await db`SELECT "Name" FROM "Genres" WHERE "Id" = ${id}`
@@ -24,6 +33,7 @@ export default class Genre{
         return result;
 
     } catch (error) {
+      if(error.code === '23505') throw new Error("Genre already exists")
         throw error; // Propaga el error para que el controlador lo maneje
     }
 }

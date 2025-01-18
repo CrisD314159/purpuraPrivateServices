@@ -4,6 +4,20 @@ import { db } from "../DB/DBConnection.js";
 export default class Artist
 {
 
+
+  static async getMinimalArtists(input){
+    try {
+      if(input !== ""){
+      const artist = await db`SELECT "PictureUrl", "Name", "Id" FROM "Artists" WHERE "Name" ILIKE ${input} LIMIT 15`
+      return artist
+      }
+      const artist = await db`SELECT "PictureUrl", "Name", "Id" FROM "Artists" LIMIT 15`
+      return artist
+    } catch (error) {
+      throw error
+  }
+}
+
   static async verifyArtist(id){
     try {
       const artist = await db`SELECT "Name" FROM "Artists" WHERE "Id" = ${id}`

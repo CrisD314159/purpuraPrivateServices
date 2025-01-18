@@ -7,6 +7,7 @@ import ImageUploadController from "../Controller/ImageUploadController.js";
 import GenreController from "../Controller/GenreController.js";
 import LoginController from "../Controller/loginController.js";
 import { CheckAuth } from "../middleware/AuthMiddleware.js";
+import SongUploadController from "../Controller/SongUploadController.js";
 
 
 export default function Routes ()
@@ -18,6 +19,7 @@ export default function Routes ()
   const genreController = new GenreController()
   const loginController = new LoginController()
   const image = new ImageUploadController()
+  const song = new SongUploadController()
   const uploads = multer({dest:"uploads/"})
 
 
@@ -25,27 +27,30 @@ export default function Routes ()
   router.post("/createArtist",CheckAuth, artistController.create)
   router.put("/updateArtist",CheckAuth, artistController.update)
   router.delete("/deleteArtist", CheckAuth, artistController.delete)
+  router.get("/getMinimalArtists/artist", artistController.getMinimal)
 
 
-  router.post("/createAlbum", albumController.create)
-  router.put("/updateAlbum", albumController.update)
-  router.delete("/deleteAlbum", albumController.delete)
+  router.post("/createAlbum", CheckAuth, albumController.create)
+  router.put("/updateAlbum",CheckAuth, albumController.update)
+  router.delete("/deleteAlbum",CheckAuth, albumController.delete)
 
 
-  router.post("/createSongSingle", songController.createSingle)
-  router.post("/addSongToAlbum", songController.addToAlbum)
-  router.put("/updateSong", songController.update)
-  router.delete("/deleteSong", songController.deleteSingle)
-  router.delete("/removeSongFromAlbum", songController.removeFromAlbum)
-  router.put("/removeGenreFromSong", songController.removeGenreFromSong)
-  router.put("/removeArtistFromSong", songController.removeArtistFromSong)
+  router.post("/createSongSingle",CheckAuth, songController.createSingle)
+  router.post("/addSongToAlbum",CheckAuth, songController.addToAlbum)
+  router.put("/updateSong", CheckAuth, songController.update)
+  router.delete("/deleteSong",CheckAuth, songController.deleteSingle)
+  router.delete("/removeSongFromAlbum",CheckAuth, songController.removeFromAlbum)
+  router.put("/removeGenreFromSong",CheckAuth, songController.removeGenreFromSong)
+  router.put("/removeArtistFromSong",CheckAuth, songController.removeArtistFromSong)
 
 
-  router.post("/createGenre", genreController.create)
-  router.put("/updateGenre", genreController.update)
-  router.delete("/deleteGenre", genreController.delete)
+  router.post("/createGenre",CheckAuth, genreController.create)
+  router.put("/updateGenre",CheckAuth, genreController.update)
+  router.delete("/deleteGenre",CheckAuth, genreController.delete)
+  router.get("/getMinGenres",CheckAuth, genreController.getMin)
 
-  router.post("/image/upload", uploads.single('image'), image.upload)
+  router.post("/image/upload",CheckAuth, uploads.single('image'), image.upload)
+  router.post("/song/upload",CheckAuth, uploads.single('song'), song.upload)
 
 
   router.post("/login/admin", loginController.login)
