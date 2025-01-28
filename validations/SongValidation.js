@@ -7,7 +7,7 @@ const Song = z.object({
   lyrics:z.string().optional(),
   duration: z.number(),
   genres: z.array(z.string()),
-  artists: z.array(z.string()),
+  artists: z.array(z.string()).optional(),
   audioUrl: z.string()
 })
 

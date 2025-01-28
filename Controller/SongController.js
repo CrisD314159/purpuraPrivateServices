@@ -41,13 +41,13 @@ addToAlbum = async (req, res)=>{
   
     update = async (req, res)=>{
       try {
-        const {id, name, duration, lyrics, genres, imageUrl, audioUrl, artists} = req.body
+        const {id, name, duration, lyrics, genres, imageUrl, audioUrl, producerName, writerName, recordLabel, releaseDate, albumId} = req.body
         const durationDouble = parseFloat(duration)
-        const validation = VerifySong({name, albumId:"", lyrics, duration: durationDouble, genres, artists, audioUrl })
+        const validation = VerifySong({name, albumId:"", lyrics, duration: durationDouble, genres, audioUrl })
         if(validation.error || !id){
           return res.status(400).json({success: false, message: "Invalid data, check your input and try again"})
         }
-        await Song.updateSong({id, name, lyrics, genres, imageUrl : imageUrl ?? this.defaultImage, audioUrl, duration, artists})
+        await Song.updateSong({id, name, lyrics, genres, imageUrl : imageUrl ?? this.defaultImage, audioUrl, duration ,producerName, writerName, recordLabel, albumId, releaseDate })
         return res.status(201).json({success: true, message: "Song updated successfully"})
       } catch (error) {
         return res.status(500).json({success: false, message: error.message})

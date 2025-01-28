@@ -114,7 +114,7 @@ export default class Song
   }
 
 
-  static async updateSong({id, name, lyrics, genres, imageUrl, audioUrl, duration, artists}){
+  static async  updateSong({id, name, lyrics, genres, imageUrl, audioUrl, duration, producerName, writerName, recordLabel, albumId, releaseDate}){
     try {
       if(!await this.verifySong(id)) throw new Error("Song does not exist")
       const song = db.begin(async db =>{
@@ -122,15 +122,15 @@ export default class Song
 
         for (const genre of genres) {
           if(!Genre.verifyGenre(genre)) throw new Error("Genre does not exist")
-          await db`INSERT INTO "GenreSong" ("GenresId", "SongsId") VALUES 
-          (${genre}, ${id})`
+            if(!await db`SELECT * FROM "GenreSong" WHERE "GenresId" = ${genre} AND "SongsId" = ${id}`){
+               await db`INSERT INTO "GenreSong" ("GenresId", "SongsId") VALUES 
+              (${genre}, ${id})`
+            }
+         
         }
 
-        for (const artist of artists) {
-          if(!Artist.verifyArtist(artist)) throw new Error("Artist does not exist")
-          await db`INSERT INTO "ArtistSong" ("ArtistsId", "SongsId") VALUES 
-          (${artist}, ${id})`
-        }
+       await db`UPDATE "Albums" SET "Name" = ${name}, "WriterName" = ${writerName}, "ProducerName" = ${producerName},
+       "ReleaseDate" = ${releaseDate}, "RecordLabel" = ${recordLabel} WHERE "Id" = ${albumId}`
         
         return true
       })
