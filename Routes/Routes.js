@@ -5,7 +5,7 @@ import SongController from "../Controller/SongController.js";
 import multer from "multer";
 import ImageUploadController from "../Controller/ImageUploadController.js";
 import GenreController from "../Controller/GenreController.js";
-import LoginController from "../Controller/loginController.js";
+import LoginController from "../Controller/LoginController.js";
 import { CheckAuth } from "../middleware/AuthMiddleware.js";
 import SongUploadController from "../Controller/SongUploadController.js";
 
